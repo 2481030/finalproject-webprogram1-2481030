@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Postingan – Fetch API</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#f5f5f5] text-black">
+  <!-- HEADER -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="h-8 flex items-center">
+          <img src="images/AkademiPrestasi.png" alt="The Coca-Cola Company" class="h-12 md:h-35">
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8 text-[15px] font-medium">
+        <a href="index.html" class="hover:text-gray-500">Home</a>
+        <a href="contact_us.html" class="hover:text-gray-500">Contact</a>
+        <a href="biodata.html" class="hover:text-gray-500">Biodata</a>
+        <a href="freepage.html" class="hover:text-gray-500">Free Page</a>
+      </nav>
+
+      <a href="freepage.html"
+         class="px-6 py-2 rounded-full border border-black text-sm font-semibold bg-white hover:bg-black hover:text-white transition">
+        Daftar
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="min-h-screen">
+    <section class="max-w-4xl mx-auto px-4 lg:px-6 py-10 md:py-14">
+      <h1 class="text-3xl md:text-4xl font-extrabold mb-2 text-center">
+        Postingan dari JSONPlaceholder
+      </h1>
+
+      <p class="text-center text-sm text-gray-600 mb-8">
+        Data diambil menggunakan <span class="font-mono text-xs">Fetch API</span> dari
+        <span class="font-mono text-xs">https://jsonplaceholder.typicode.com/posts/30</span>
+        (dua digit terakhir NIM: <strong>30</strong>).
+      </p>
+
+      <div id="postCard"
+           class="bg-white rounded-[28px] shadow-sm p-6 md:p-8 text-sm md:text-base">
+        <p id="status" class="text-gray-600 mb-4">Mengambil data...</p>
+
+        <div id="postContent" class="hidden space-y-4">
+          <div class="flex justify-between text-sm">
+            <span class="font-semibold">ID Postingan:</span>
+            <span id="postId"></span>
+          </div>
+
+          <div>
+            <h2 class="font-semibold mb-1">Judul</h2>
+            <p id="postTitle"></p>
+          </div>
+
+          <div>
+            <h2 class="font-semibold mb-1">Body</h2>
+            <p id="postBody" class="whitespace-pre-line"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black text-gray-200 pt-10 pb-6 mt-10">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+        <div></div>
+        <button class="mt-4 md:mt-0 inline-flex items-center gap-2 px-5 py-2 rounded-full border border-gray-400 text-sm hover:bg-white hover:text-black transition">
+          <span class="w-4 h-4 rounded-full border border-gray-400"></span>
+          Indonesia
+        </button>
+      </div>
+
+      <div class="border-t border-gray-700 mt-4 pt-4 text-xs text-gray-400 text-center">
+        © 2025 Jadi Juara Kelas by PT. Akademi Prestasi Indonesia
+      </div>
+    </div>
+  </footer>
+
+  <!-- FETCH SCRIPT -->
+  <script>
+    const NIM_LAST_TWO = "30";
+    const url = `https://jsonplaceholder.typicode.com/posts/${NIM_LAST_TWO}`;
+
+    const statusEl = document.getElementById('status');
+    const postContentEl = document.getElementById('postContent');
+    const postIdEl = document.getElementById('postId');
+    const postTitleEl = document.getElementById('postTitle');
+    const postBodyEl = document.getElementById('postBody');
+
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Gagal mengambil data (status ' + response.status + ')');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        statusEl.classList.add('hidden');
+        postContentEl.classList.remove('hidden');
+
+        postIdEl.textContent = data.id;
+        postTitleEl.textContent = data.title;
+        postBodyEl.textContent = data.body;
+      })
+      .catch((error) => {
+        statusEl.textContent = 'Terjadi kesalahan: ' + error.message;
+        statusEl.classList.remove('hidden');
+      });
+  </script>
+
+</body>
+</html>
